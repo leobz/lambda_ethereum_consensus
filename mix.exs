@@ -24,7 +24,7 @@ defmodule LambdaEthereumConsensus.MixProject do
     [
       extra_applications:
         extra_applications(System.get_env("EXTRA_APPLICATIONS")) ++
-          [:logger, :runtime_tools, :observer],
+          [:logger, :runtime_tools, :wx, :observer],
       mod: {LambdaEthereumConsensus.Application, []}
     ]
   end
