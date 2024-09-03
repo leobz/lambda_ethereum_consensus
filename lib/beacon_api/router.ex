@@ -1,6 +1,10 @@
 defmodule BeaconApi.Router do
   use BeaconApi, :router
 
+  pipeline :browser do
+    plug(:accepts, ["html"])
+  end
+
   pipeline :api do
     plug(:accepts, ["json"])
     plug(OpenApiSpex.Plug.PutApiSpec, module: BeaconApi.ApiSpec)
@@ -33,6 +37,13 @@ defmodule BeaconApi.Router do
     end
   end
 
+  # Swagger UI for the OpenAPI specification.
+  scope "/" do
+    pipe_through(:browser)
+    get("/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi")
+  end
+
+  # OpenAPI specification.
   scope "/api" do
     pipe_through(:api)
     get("/openapi", OpenApiSpex.Plug.RenderSpec, [])
